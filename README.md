@@ -15,6 +15,8 @@ Implement the logic for the Delete button.
 Implement the logic for the Clear All button. This will need to call the confirmation dialog that Lian creates.
 Implement the logic for the Show Totals button, which will call the info dialog Lian creates.
 Integrate the Add/Edit buttons to open the ContactForm dialog that Lian builds.
+
+
 Lian's Responsibilities (Forms & Dialogs) 🤝
 Your focus is on all secondary windows and user feedback pop-ups.
 ContactForm.java Dialog:
@@ -31,14 +33,24 @@ An Info Dialog method that takes a message, which will be used for showing the t
 
 Example Workflow with New Tasks
 Ranzel sets up the project, creates the initial Contact.java model, commits, and pushes.
+
 Ranzel tells Lian: "Project is set up and the Contact model is pushed."
+
 Lian pulls the project. She can immediately start working on ContactForm.java and the generic helper methods for the dialogs, as they don't depend on the main window yet.
+
 Simultaneously, Ranzel works in ContactManager.java to build the TableView and lay out all the new buttons (Clear All, Show Totals, etc.).
+
 Lian finishes the contact form and the reusable dialog methods. She commits with a message like "Feat: Implement ContactForm and all dialog helpers" and pushes her work.
+
 Lian tells Ranzel: "The form and all the dialogs are ready to be used. You can pull them now."
+
 Ranzel pulls Lian's changes. Now he has everything he needs to connect the pieces:
+
 He wires his "Clear All" button to call Lian's confirmation dialog method.
+
 He wires his "Show Totals" button to get the size of the contact list and show it using Lian's info dialog method.
+
 He wires the "Add" and "Edit" buttons to open an instance of Lian's ContactForm.
+
 This workflow allows you both to work in parallel on separate parts of the application before integrating them at the end.
 
