@@ -4,6 +4,7 @@ Guiding Principle: ALWAYS PULL FIRST!
 Before starting work, always pull the latest changes to ensure you're up-to-date and to prevent merge conflicts.
 Refined Task Division 📝
 The work is split to minimize overlap and allow parallel development.
+
 Ranzel's Responsibilities (Main Window & Core Logic) 🧑‍💻
 Your focus is on the primary application window and managing the contact list itself.
 Contact.java Model: Create the data model with Name, Phone, and Email properties.
