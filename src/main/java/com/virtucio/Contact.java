@@ -4,55 +4,40 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Contact {
-    private final StringProperty firstName;
-    private final StringProperty lastName;
-    private final StringProperty phoneNumber;
+    private final StringProperty name;
+    private final StringProperty phone;
     private final StringProperty email;
-    private final StringProperty address;
 
     public Contact() {
-        this(null, null, null, null, null);
+        this(null, null, null);
     }
 
-    public Contact(String firstName, String lastName, String phoneNumber, String email, String address) {
-        this.firstName = new SimpleStringProperty(firstName);
-        this.lastName = new SimpleStringProperty(lastName);
-        this.phoneNumber = new SimpleStringProperty(phoneNumber);
+    public Contact(String name, String phone, String email) {
+        this.name = new SimpleStringProperty(name);
+        this.phone = new SimpleStringProperty(phone);
         this.email = new SimpleStringProperty(email);
-        this.address = new SimpleStringProperty(address);
     }
 
-    // First Name
-    public String getFirstName() {
-        return firstName.get();
+    // Name
+    public String getName() {
+        return name.get();
     }
-    public void setFirstName(String value) {
-        firstName.set(value);
+    public void setName(String value) {
+        name.set(value);
     }
-    public StringProperty firstNameProperty() {
-        return firstName;
-    }
-
-    // Last Name
-    public String getLastName() {
-        return lastName.get();
-    }
-    public void setLastName(String value) {
-        lastName.set(value);
-    }
-    public StringProperty lastNameProperty() {
-        return lastName;
+    public StringProperty nameProperty() {
+        return name;
     }
 
-    // Phone Number
-    public String getPhoneNumber() {
-        return phoneNumber.get();
+    // Phone
+    public String getPhone() {
+        return phone.get();
     }
-    public void setPhoneNumber(String value) {
-        phoneNumber.set(value);
+    public void setPhone(String value) {
+        phone.set(value);
     }
-    public StringProperty phoneNumberProperty() {
-        return phoneNumber;
+    public StringProperty phoneProperty() {
+        return phone;
     }
 
     // Email
@@ -64,16 +49,5 @@ public class Contact {
     }
     public StringProperty emailProperty() {
         return email;
-    }
-
-    // Address
-    public String getAddress() {
-        return address.get();
-    }
-    public void setAddress(String value) {
-        address.set(value);
-    }
-    public StringProperty addressProperty() {
-        return address;
     }
 }
