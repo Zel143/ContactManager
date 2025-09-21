@@ -1,4 +1,9 @@
-package com.virtucio;
+// Three columns bound to Contact properties
+TableColumn<Contact, String> nameCol = new TableColumn<>("Name");
+nameCol.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+
+// Observable list for automatic UI updates
+private ObservableList<Contact> contactData = FXCollections.observableArrayList();package com.virtucio;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
