@@ -146,81 +146,73 @@ public class ContactManager extends Application {
 
     /**
      * CLEAR ALL BUTTON LOGIC - Ranzel's implementation
-     * Will integrate with Lian's confirmation dialog
-     * Currently uses temporary confirmation dialog
+     * Now integrated with Lian's confirmation dialog
      */
     private void clearAllContacts() {
         if (!contactData.isEmpty()) {
-            // TODO: Replace this with Lian's confirmation dialog
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirm Clear All");
-            alert.setHeaderText("Clear All Contacts");
-            alert.setContentText("Are you sure you want to delete all contacts?");
-
-            alert.showAndWait().ifPresent(response -> {
-                if (response == ButtonType.OK) {
-                    contactData.clear();  // Remove all contacts
-                }
-            });
+            // Use Lian's confirmation dialog
+            if (ContactForm.showConfirmationDialog("Confirm Clear All",
+                    "Are you sure you want to delete all contacts?")) {
+                contactData.clear();  // Remove all contacts
+            }
         } else {
-            // Inform user if list is already empty
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("No Contacts");
-            alert.setHeaderText("Contact List Empty");
-            alert.setContentText("There are no contacts to clear.");
-            alert.showAndWait();
+            // Use Lian's info dialog to inform user if list is already empty
+            ContactForm.showInfoDialog("No Contacts", "There are no contacts to clear.");
         }
     }
 
     /**
      * SHOW TOTALS BUTTON LOGIC - Ranzel's implementation
-     * Will integrate with Lian's info dialog
-     * Currently uses temporary information dialog
+     * Now integrated with Lian's info dialog
      */
     private void showTotals() {
         int totalContacts = contactData.size();
-        // TODO: Replace this with Lian's custom info dialog
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Contact Statistics");
-        alert.setHeaderText("Total Contacts");
-        alert.setContentText("Total number of contacts: " + totalContacts);
-        alert.showAndWait();
+        // Use Lian's custom info dialog
+        ContactForm.showInfoDialog("Contact Statistics",
+                "Total number of contacts: " + totalContacts);
     }
 
     // ===== INTEGRATION POINTS FOR LIAN'S DIALOGS =====
 
     /**
-     * ADD BUTTON INTEGRATION POINT
-     * This method will call Lian's ContactForm dialog for adding new contacts
-     * Currently has temporary implementation for testing
+     * ADD BUTTON INTEGRATION
+     * Now properly integrated with Lian's ContactForm dialog
      */
     private void openAddContactDialog() {
-        // TODO: Replace with Lian's ContactForm dialog call
-        System.out.println("Add button clicked - will open ContactForm dialog");
+        // Get the primary stage to pass as owner
+        Stage primaryStage = (Stage) contactTable.getScene().getWindow();
 
-        // Temporary implementation for testing - adds a sample contact
-        Contact newContact = new Contact("New Contact", "123-456-7890", "new@email.com");
-        contactData.add(newContact);
+        // Call Lian's ContactForm dialog for adding new contacts
+        Contact newContact = ContactForm.showContactForm(primaryStage, null);
+
+        // If user didn't cancel, add the new contact to the list
+        if (newContact != null) {
+            contactData.add(newContact);
+        }
     }
 
     /**
-     * EDIT BUTTON INTEGRATION POINT
-     * This method will call Lian's ContactForm dialog for editing existing contacts
-     * Includes proper validation for contact selection
+     * EDIT BUTTON INTEGRATION
+     * Now properly integrated with Lian's ContactForm dialog
      */
     private void openEditContactDialog() {
         Contact selectedContact = contactTable.getSelectionModel().getSelectedItem();
         if (selectedContact != null) {
-            // TODO: Replace with Lian's ContactForm dialog call
-            // Pass the selected contact to the dialog for editing
-            System.out.println("Edit button clicked - will open ContactForm dialog for: " + selectedContact.getName());
+            // Get the primary stage to pass as owner
+            Stage primaryStage = (Stage) contactTable.getScene().getWindow();
+
+            // Call Lian's ContactForm dialog for editing the selected contact
+            Contact editedContact = ContactForm.showContactForm(primaryStage, selectedContact);
+
+            // The contact object is modified in place, so the table will update automatically
+            // due to the property bindings in the Contact model
+            if (editedContact != null) {
+                // Force table refresh to show updated values
+                contactTable.refresh();
+            }
         } else {
-            // Show error if no contact is selected
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No Contact Selected");
-            alert.setContentText("Please select a contact to edit.");
-            alert.showAndWait();
+            // Use Lian's error dialog for better consistency
+            ContactForm.showErrorDialog("No Selection", "Please select a contact to edit.");
         }
     }
 
