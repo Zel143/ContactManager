@@ -126,7 +126,7 @@ public class ContactForm {
         // Allows spaces, hyphens, dots, parentheses for formatting
         String digitsOnly = phone.replaceAll("[^0-9]", "");
         return phone.matches("^[+]?[0-9\\s.()-]+$") && digitsOnly.length() >= 7;
-    }
+        return phone.matches("^[+]?[0-9][\\s.()0-9-]*$") && digitsOnly.length() >= 7;
 
     /**
      * Shows an error dialog with the given title and message.

@@ -75,10 +75,16 @@ public class Contact {
         if (obj == null || getClass() != obj.getClass()) return false;
         Contact contact = (Contact) obj;
         // Email comparison is case-insensitive for better UX
-        return Objects.equals(
-            getEmail() != null ? getEmail().toLowerCase() : null,
-            contact.getEmail() != null ? contact.getEmail().toLowerCase() : null
-        );
+        return equalsIgnoreCaseNullable(getEmail(), contact.getEmail());
+    }
+
+    /**
+     * Null-safe, case-insensitive string comparison.
+     */
+    private static boolean equalsIgnoreCaseNullable(String a, String b) {
+        if (a == b) return true;
+        if (a == null || b == null) return false;
+        return a.equalsIgnoreCase(b);
     }
 
     /**
@@ -87,7 +93,8 @@ public class Contact {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getEmail() != null ? getEmail().toLowerCase() : null);
+        String emailValue = getEmail();
+        return Objects.hash(emailValue == null ? null : emailValue.toLowerCase());
     }
 
     /**
