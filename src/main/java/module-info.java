@@ -3,6 +3,7 @@ module contactmanager {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.base;
+    requires javafx.graphics;
     
     // SQL support for SQLite database integration
     requires java.sql;

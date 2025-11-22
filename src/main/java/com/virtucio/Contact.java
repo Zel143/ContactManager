@@ -75,13 +75,13 @@ public class Contact {
         if (obj == null || getClass() != obj.getClass()) return false;
         Contact contact = (Contact) obj;
         // Email comparison is case-insensitive for better UX
-        return equalsIgnoreCaseNullable(getEmail(), contact.getEmail());
+        return equalsIgnoreCase(getEmail(), contact.getEmail());
     }
 
     /**
      * Null-safe, case-insensitive string comparison.
      */
-    private static boolean equalsIgnoreCaseNullable(String a, String b) {
+    private static boolean equalsIgnoreCase(String a, String b) {
         if (a == b) return true;
         if (a == null || b == null) return false;
         return a.equalsIgnoreCase(b);

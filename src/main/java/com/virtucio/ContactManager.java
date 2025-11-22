@@ -221,9 +221,9 @@ public class ContactManager extends Application {
 
         // Show Totals button - RANZEL'S IMPLEMENTATION (will integrate with Lian's info dialog)
         showTotalsButton.setOnAction(e -> showTotals());
-                    String.format(
-                        "A contact with email '%s' already exists.\n"
-                        + "Each contact must have a unique email address.",
+
+        // Layout buttons horizontally with spacing
+        HBox buttonBar = new HBox(BUTTON_SPACING);
         buttonBar.setPadding(new Insets(BUTTON_SPACING, 0, 0, 0));
         buttonBar.getChildren().addAll(addButton, editButton, deleteButton, clearAllButton, showTotalsButton);
 

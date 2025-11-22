@@ -110,7 +110,7 @@ public class ContactForm {
      */
     private static boolean isValidEmail(String email) {
         // Improved regex: no consecutive dots, proper domain structure
-        return email.matches("^[a-zA-Z0-9]+([._%-][a-zA-Z0-9]+)*@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") 
+        return email.matches("^[a-zA-Z0-9]+([._%-][a-zA-Z0-9]+)*@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
     }
 
     /**
@@ -122,11 +122,12 @@ public class ContactForm {
      * rather than enforcing strict national format.
      */
     private static boolean isValidPhone(String phone) {
-        // Must start with optional +, contain at least 7 digits (minimum valid phone)
-        // Allows spaces, hyphens, dots, parentheses for formatting
+        // Must start with optional + followed by digit, then any formatting
+        // Prevents invalid patterns like "+---" or "( )"
+        // Requires minimum 7 actual digits (shortest international number)
         String digitsOnly = phone.replaceAll("[^0-9]", "");
-        return phone.matches("^[+]?[0-9\\s.()-]+$") && digitsOnly.length() >= 7;
         return phone.matches("^[+]?[0-9][\\s.()0-9-]*$") && digitsOnly.length() >= 7;
+    }
 
     /**
      * Shows an error dialog with the given title and message.
