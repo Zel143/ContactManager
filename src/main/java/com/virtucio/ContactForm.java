@@ -2,7 +2,11 @@ package com.virtucio;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
@@ -59,14 +63,23 @@ public class ContactForm {
             String phone = phoneField.getText().trim();
             String email = emailField.getText().trim();
 
-            // Validation: all fields required
+            // Validation 1: All fields are required (no empty submissions)
             if (name.isEmpty() || phone.isEmpty() || email.isEmpty()) {
                 showErrorDialog("Validation Error", "All fields are required.");
                 return;
             }
-            // Validation: email must contain '@' and be a valid format
+            
+            // Validation 2: Email format must be valid
             if (!isValidEmail(email)) {
-                showErrorDialog("Validation Error", "Please enter a valid email address.");
+                showErrorDialog("Invalid Email", 
+                    "Please enter a valid email address (e.g., user@example.com).");
+                return;
+            }
+            
+            // Validation 3: Phone format must be valid
+            if (!isValidPhone(phone)) {
+                showErrorDialog("Invalid Phone", 
+                    "Phone must contain at least 7 digits.\nAccepts: +1-555-0123, (555) 0123, etc.");
                 return;
             }
 
@@ -91,11 +104,28 @@ public class ContactForm {
     }
 
     /**
-     * Checks if the email is in a valid format.
+     * Validates email format using improved regex.
+     * Checks for basic structure: localpart@domain.tld
+     * Rejects consecutive dots, leading/trailing dots, and missing components.
      */
     private static boolean isValidEmail(String email) {
-        // Basic regex for email validation
-        return email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
+        // Improved regex: no consecutive dots, proper domain structure
+        return email.matches("^[a-zA-Z0-9]+([._%-][a-zA-Z0-9]+)*@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$") 
+    }
+
+    /**
+     * Validates phone number format.
+     * Accepts international formats: +, digits, spaces, hyphens, parentheses.
+     * Examples: +1-555-0123, (555) 0123, 555.0123.4567, +44 20 7123 4567
+     * 
+     * Architectural Decision: Flexible validation to support global users
+     * rather than enforcing strict national format.
+     */
+    private static boolean isValidPhone(String phone) {
+        // Must start with optional +, contain at least 7 digits (minimum valid phone)
+        // Allows spaces, hyphens, dots, parentheses for formatting
+        String digitsOnly = phone.replaceAll("[^0-9]", "");
+        return phone.matches("^[+]?[0-9\\s.()-]+$") && digitsOnly.length() >= 7;
     }
 
     /**
